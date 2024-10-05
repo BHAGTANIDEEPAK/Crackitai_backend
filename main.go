@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -68,6 +69,15 @@ func getInterview(context *gin.Context) {
 
 func main() {
 	router := gin.Default()
+
+	//Cors Configuration
+	router.Use(cors.New(cors.Config{
+		AllowAllOrigins:  true,
+		AllowMethods:     []string{"*"},
+		AllowHeaders:     []string{"*"},
+		ExposeHeaders:    []string{"Content-Length"},
+		AllowCredentials: true,
+	}))
 	router.GET("/getInterviews", getInterviews)
 	router.GET("/getInterviews/:email", getInterview)
 	router.POST("/addInterview", addInterview)
